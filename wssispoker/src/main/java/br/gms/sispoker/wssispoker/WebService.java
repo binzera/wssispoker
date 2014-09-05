@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import br.gms.sispoker.wssispoker.entity.Entrada;
+import br.gms.sispoker.wssispoker.entity.EntradaList;
 import br.gms.sispoker.wssispoker.entity.Jogador;
 import br.gms.sispoker.wssispoker.entity.JogadorList;
 import br.gms.sispoker.wssispoker.entity.Saida;
@@ -172,7 +173,9 @@ public class WebService implements IWebService {
 	@Override
 	public Response getDatasMesas() {
 		List<Entrada> lista = entradaDAO.getDatasMesas();
-		return JAXBUtil.getTransformResponse(lista);
+		EntradaList entradas = new EntradaList();
+		entradas.setListaEntrada(lista);
+		return JAXBUtil.getTransformResponse(entradas);
 	}
 	
 	
