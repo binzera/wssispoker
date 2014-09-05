@@ -168,4 +168,12 @@ public class WebService implements IWebService {
 		return JAXBUtil.getTransformResponse(lista);
 		
 	}
+
+	@Override
+	public Response getDatasMesas() {
+		List<Entrada> lista = entradaDAO.getDatasMesas();
+		return JAXBUtil.getTransformResponse(lista);
+	}
+	
+	
 }

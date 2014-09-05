@@ -33,5 +33,24 @@ public class EntradaDAO extends GenericDAO<Entrada> {
 		
 		return retorno;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Entrada> getDatasMesas(){
+		List<Entrada> retorno;
+				
+		try{
+			
+			String sql = "select t.* from (select *, row_number() over "
+					+ "(partition by data order by data) as seqnum from entrada) t where seqnum = 1;";
+			
+			Query query = em
+					.createNativeQuery(sql, Entrada.class);
+			retorno = (List<Entrada>) query.getResultList();
+	
+		} catch (Exception e) {
+			retorno = null;
+		}
 
+		return retorno;
+	}
 }

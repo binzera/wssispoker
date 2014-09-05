@@ -56,5 +56,10 @@ public interface IWebService {
 	@Path("rankingByDate")
 	public Response getRankingByDate(Date data);
 	
+	@GET
+	@Produces({MediaType.APPLICATION_XML})
+	@Path("datasMesas")
+	public Response getDatasMesas();
+	
 	
 }
