@@ -1,5 +1,6 @@
 package br.gms.sispoker.wssispoker.entity;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="jogador")
 @XmlRootElement(name="jogador")
 @NamedQuery(name="findAllJogador", query="SELECT j FROM Jogador j")
-public class Jogador {
+public class Jogador implements Comparable<Jogador>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -136,7 +137,14 @@ public class Jogador {
 		this.entradas = entradas;
 	}
 	
-	
-	
+	public int compareTo(Jogador jogador) {
+        if (this.total > jogador.total) {
+            return -1;
+        }
+        if (this.total < jogador.total) {
+            return 1;
+        }
+        return 0;
+    }
 
 }
