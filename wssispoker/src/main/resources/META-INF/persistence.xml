@@ -9,7 +9,7 @@
 	
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<!--  jta-data-source>java:/sispokerDS</jta-data-source> -->
+		<!--  <jta-data-source>java:/sispokerDS</jta-data-source> -->
 		<jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
 		
 
