@@ -15,7 +15,7 @@ public class JogadorList {
 	/**
 	 * @return the listaJogadores
 	 */
-	//@XmlElement(name="jogador")
+	@XmlElement(name="jogador")
 	public List<Jogador> getListaJogadores() {
 		return listaJogadores;
 	}
