@@ -1,6 +1,10 @@
 package br.gms.wssispoker.rest;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -12,10 +16,12 @@ import br.gms.wssispoker.entity.EntradaList;
 import br.gms.wssispoker.entity.Jogador;
 import br.gms.wssispoker.entity.JogadorList;
 import br.gms.wssispoker.entity.Saida;
+import br.gms.wssispoker.message.SispokerMessage;
 import br.gms.wssispoker.persistence.EntradaDAO;
 import br.gms.wssispoker.persistence.JogadorDAO;
 import br.gms.wssispoker.persistence.SaidaDAO;
 import br.gms.wssispoker.util.JAXBUtil;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 
 public class WebService implements IWebService {
@@ -60,13 +66,13 @@ public class WebService implements IWebService {
 	}
 
 	@Override
-	public Response testarWS() {
+	public Object testarWS() {
 		Jogador jogador = new Jogador();
 		jogador.setNome("Binzera");
 		jogador.setEmail("EMail");
 		jogador.setId(1);
 		
-		return JAXBUtil.getTransformResponse(jogador);
+		return jogador;
 	}
 
 	@Override
@@ -76,7 +82,8 @@ public class WebService implements IWebService {
 		
 		return JAXBUtil.getTransformResponse(lista);
 	}
-
+	
+	
 	@Override
 	public String salvarEntrada(Entrada entrada) {
 		String retorno = "Não foi possivel salvar a entrada.";
@@ -120,6 +127,8 @@ public class WebService implements IWebService {
 			calcaularSaldo(jogador);
 		}
 		
+		Collections.sort(jogadores);
+		
 		JogadorList lista = new JogadorList();
 		lista.setListaJogadores(jogadores);
 		
@@ -140,35 +149,47 @@ public class WebService implements IWebService {
 	}
 
 	@Override
-	public Response getRankingByDate(Date data) {
+	public Response getRankingByDate(String dataString) {
 		Integer totalEntradas = 0;
 		Integer totalSaidas = 0;
 		List<Jogador> jogadores = jogadorDAO.getAll(Jogador.class);
 		List<Jogador> listaRetorno = new ArrayList<Jogador>();
-		
-		for (Jogador jogador : jogadores){
-			for(Entrada entrada : jogador.getEntradas()){
-				if(entrada.getData().compareTo(data) == 0){
+
+		Date data;
+		try {
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			data = formatter.parse(dataString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return JAXBUtil.getTransformResponse(new SispokerMessage(
+					"Erro ao converter a data"));
+		}
+
+		for (Jogador jogador : jogadores) {
+			for (Entrada entrada : jogador.getEntradas()) {
+				if (entrada.getData().compareTo(data) == 0) {
 					totalEntradas += entrada.getValor();
 				}
 			}
-			for (Saida saida : jogador.getSaidas()){
-				if(saida.getData().compareTo(data) == 0){
+			for (Saida saida : jogador.getSaidas()) {
+				if (saida.getData().compareTo(data) == 0) {
 					totalSaidas += saida.getValor();
 				}
 			}
 			jogador.setTotal(totalSaidas - totalEntradas);
-			
-			if(jogador.getTotal() != 0){
+
+			if (jogador.getTotal() != 0) {
 				listaRetorno.add(jogador);
 			}
 			totalEntradas = 0;
 			totalSaidas = 0;
 		}
 		
+		Collections.sort(jogadores);
+		
 		JogadorList lista = new JogadorList();
 		lista.setListaJogadores(jogadores);
-		
+
 		return JAXBUtil.getTransformResponse(lista);
 		
 	}
@@ -176,6 +197,11 @@ public class WebService implements IWebService {
 	@Override
 	public Response getDatasMesas() {
 		List<Entrada> lista = entradaDAO.getDatasMesas();
+		for (Entrada ent : lista) {
+			ent.setJogador(null);
+			ent.setId(null);
+			ent.setValor(null);
+		}
 		EntradaList entradas = new EntradaList();
 		entradas.setListaEntrada(lista);
 		return JAXBUtil.getTransformResponse(entradas);
