@@ -17,7 +17,7 @@ public class SimpleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
-        writer.append("That's my first OpenShift Application!");
+        writer.append("Essa é a minha primeira app no openshift!");
         writer.close();
     }
 }
