@@ -1,3 +1,8 @@
 /target
 /src
 /Users
+target
+.settings/*
+!.settings/.jsdtscope
+.project
+.classpath
