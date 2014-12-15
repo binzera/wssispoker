@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="jogador")
 @XmlRootElement(name="jogador")
@@ -160,6 +162,7 @@ public class Jogador implements Comparable<Jogador>{
 	 * @return the senha
 	 */
 	@XmlTransient
+	@JsonIgnore
 	public String getSenha() {
 		return senha;
 	}
@@ -175,6 +178,7 @@ public class Jogador implements Comparable<Jogador>{
 	 * @return the admin
 	 */
 	@XmlTransient
+	@JsonIgnore
 	public Boolean getAdmin() {
 		return admin;
 	}

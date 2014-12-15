@@ -1,5 +1,6 @@
 package br.gms.wssispoker.security;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -32,23 +33,32 @@ public class AppAuthenticator implements Authenticator {
 	public void authenticate() throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
 
-		try {
-			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException ex) {
-			ex.printStackTrace();
-		}
-
 		Jogador jogador = new Jogador(credentials.getUsername());
 		Jogador retorno = jogadorDao.getJogadorByEmail(jogador);
 
 		if (retorno != null
-				&& credentials.getPassword().equals(
-						md.digest(retorno.getSenha().getBytes()))) {
+				&& md5(credentials.getPassword()).equals(
+						retorno.getSenha())) {
 			this.user = new AppUser(credentials.getUsername());
 		} else {
 			throw new InvalidCredentialsException();
 		}
 	}
+	
+	
+	//Função para criar hash da senha informada  
+    public static String md5(String senha){  
+        String sen = "";  
+        MessageDigest md = null;  
+        try {  
+            md = MessageDigest.getInstance("MD5");  
+        } catch (NoSuchAlgorithmException e) {  
+            e.printStackTrace();  
+        }  
+        BigInteger hash = new BigInteger(1, md.digest(senha.getBytes()));  
+        sen = hash.toString(16);              
+        return sen;  
+    }  
 
 	@Override
 	public void unauthenticate() throws Exception {

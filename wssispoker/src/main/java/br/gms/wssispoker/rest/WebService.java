@@ -68,7 +68,6 @@ public class WebService implements IWebService {
 	}
 
 	@Override
-	@LoggedIn
 	public Object testarWS() {
 		Jogador jogador = new Jogador();
 		jogador.setNome("Binzera");
