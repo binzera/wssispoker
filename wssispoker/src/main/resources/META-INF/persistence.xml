@@ -26,6 +26,7 @@
 		<class>br.gms.wssispoker.entity.Jogador</class>
 		<class>br.gms.wssispoker.entity.Entrada</class>
 		<class>br.gms.wssispoker.entity.Saida</class>
+		<class>br.gms.wssispoker.entity.Configuracao</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

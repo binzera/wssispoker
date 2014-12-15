@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import br.gms.wssispoker.entity.Entrada;
 import br.gms.wssispoker.entity.Jogador;
 import br.gms.wssispoker.entity.Saida;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 
 @Path("sispoker")
 public interface IWebService {

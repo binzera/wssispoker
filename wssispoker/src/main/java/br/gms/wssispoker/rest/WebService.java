@@ -21,6 +21,7 @@ import br.gms.wssispoker.persistence.EntradaDAO;
 import br.gms.wssispoker.persistence.JogadorDAO;
 import br.gms.wssispoker.persistence.SaidaDAO;
 import br.gms.wssispoker.util.JAXBUtil;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 
@@ -41,6 +42,7 @@ public class WebService implements IWebService {
 	}
 
 	@Override
+	@LoggedIn
 	public String salvarJogador(Jogador jogador) {
 		String retorno = "Não foi possivel salvar o jogador.";
 		if(jogador != null){
@@ -66,6 +68,7 @@ public class WebService implements IWebService {
 	}
 
 	@Override
+	@LoggedIn
 	public Object testarWS() {
 		Jogador jogador = new Jogador();
 		jogador.setNome("Binzera");
@@ -76,6 +79,7 @@ public class WebService implements IWebService {
 	}
 
 	@Override
+	@LoggedIn
 	public Response listarJogadores() {
 		JogadorList lista = new JogadorList();
 		lista.setListaJogadores(jogadorDAO.getAll(Jogador.class));
@@ -85,6 +89,7 @@ public class WebService implements IWebService {
 	
 	
 	@Override
+	@LoggedIn
 	public String salvarEntrada(Entrada entrada) {
 		String retorno = "Não foi possivel salvar a entrada.";
 		if(entrada != null){
@@ -103,6 +108,7 @@ public class WebService implements IWebService {
 	}
 	
 	@Override
+	@LoggedIn
 	public String salvarSaida(Saida saida) {
 		String retorno = "Não foi possivel salvar a saida.";
 		if(saida != null){
@@ -121,6 +127,7 @@ public class WebService implements IWebService {
 	}
 
 	@Override
+	@LoggedIn
 	public Response getRankingGeral() {
 		List<Jogador> jogadores = jogadorDAO.getAll(Jogador.class);
 		for (Jogador jogador : jogadores){
@@ -149,6 +156,7 @@ public class WebService implements IWebService {
 	}
 
 	@Override
+	@LoggedIn
 	public Response getRankingByDate(String dataString) {
 		Integer totalEntradas = 0;
 		Integer totalSaidas = 0;
@@ -195,6 +203,7 @@ public class WebService implements IWebService {
 	}
 
 	@Override
+	@LoggedIn
 	public Response getDatasMesas() {
 		List<Entrada> lista = entradaDAO.getDatasMesas();
 		for (Entrada ent : lista) {
