@@ -17,11 +17,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonValueInstantiator;
-
 @Entity
 @Table(name="jogador")
 @XmlRootElement(name="jogador")
@@ -39,6 +34,12 @@ public class Jogador implements Comparable<Jogador>{
 	@Column(name="email")
 	private String email;
 	
+	@Column(name="senha")
+	private String senha;
+	
+	@Column(name="admin")
+	private Boolean admin;
+	
 	@OneToMany(mappedBy="jogador", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Entrada> entradas;
 	
@@ -50,6 +51,10 @@ public class Jogador implements Comparable<Jogador>{
 	
 	public Jogador(){
 		
+	}
+	
+	public Jogador(String email){
+		this.setEmail(email);
 	}
 
 	/**
@@ -150,6 +155,38 @@ public class Jogador implements Comparable<Jogador>{
         }
         return 0;
     }
+
+	/**
+	 * @return the senha
+	 */
+	@XmlTransient
+	public String getSenha() {
+		return senha;
+	}
+
+	/**
+	 * @param senha the senha to set
+	 */
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	/**
+	 * @return the admin
+	 */
+	@XmlTransient
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	/**
+	 * @param admin the admin to set
+	 */
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+	
+	
 	
 
 }
