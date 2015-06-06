@@ -126,7 +126,6 @@ public class WebService implements IWebService {
 	}
 
 	@Override
-	@LoggedIn
 	public Response getRankingGeral() {
 		List<Jogador> jogadores = jogadorDAO.getAll(Jogador.class);
 		for (Jogador jogador : jogadores){
@@ -155,7 +154,6 @@ public class WebService implements IWebService {
 	}
 
 	@Override
-	@LoggedIn
 	public Response getRankingByDate(String dataString) {
 		Integer totalEntradas = 0;
 		Integer totalSaidas = 0;
@@ -202,7 +200,6 @@ public class WebService implements IWebService {
 	}
 
 	@Override
-	@LoggedIn
 	public Response getDatasMesas() {
 		List<Entrada> lista = entradaDAO.getDatasMesas();
 		for (Entrada ent : lista) {
